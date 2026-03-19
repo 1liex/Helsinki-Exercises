@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import Filter from "./modules/Filter";
-import AddingNewPeople from "./modules/AddingNewPeople";
+import PersonForm from "./modules/PersonForm";
 import Persons from "./modules/Persons";
-import axios from "axios";
+import personService from "./server/personService";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,10 +11,8 @@ const App = () => {
   const [showPersonInfo, setShowPersonInfo] = useState("");
 
   useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
   }, []);
 
@@ -28,7 +26,7 @@ const App = () => {
           : "Nothing yet..."}
       </div>
       <h2>add a new</h2>
-      <AddingNewPeople
+      <PersonForm
         persons={persons}
         newName={newName}
         phoneNum={phoneNum}
@@ -37,7 +35,7 @@ const App = () => {
         setPhoneNum={setPhoneNum}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} />
+      <Persons persons={persons} setPersons={setPersons} />
     </div>
   );
 };
