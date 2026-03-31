@@ -6,6 +6,8 @@ const PersonForm = ({
   setPersons,
   setNewName,
   setPhoneNum,
+  setMessage,
+  setMsgColor,
 }) => {
   const updatePerson = (id) => {
     const updateObject = {
@@ -28,9 +30,14 @@ const PersonForm = ({
       number: phoneNum,
       id: String(persons.length + 1),
     };
-
     personService.create(newObject).then((respons) => {
       setPersons(persons.concat(respons));
+      setMessage(`Added ${newName}`);
+      setMsgColor("green");
+      setTimeout(() => {
+        setMessage(null);
+        setMsgColor(null);
+      }, 3000);
     });
     clerarForm();
   };

@@ -1,5 +1,5 @@
 import personService from "../server/personService";
-const Persons = ({ persons, setPersons }) => {
+const Persons = ({ persons, setPersons, setMessage, setMsgColor }) => {
   const handleDelete = (id, name) => {
     if (window.confirm(`Delete ${name} ?`)) {
       personService
@@ -10,6 +10,12 @@ const Persons = ({ persons, setPersons }) => {
         })
         .catch((err) => {
           console.log(err);
+          setMessage(`info of ${name} has already been removed from server`);
+          setMsgColor("red");
+          setTimeout(() => {
+            setMessage(null);
+            setMsgColor(null);
+          }, 3000);
         });
     }
   };
